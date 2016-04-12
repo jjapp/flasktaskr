@@ -9,7 +9,7 @@ Created on Thu Apr 07 15:06:56 2016
 
 from flask_wtf import Form
 from wtforms import StringField, DateField, IntegerField, SelectField, PasswordField
-from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms.validators import DataRequired, Length, EqualTo, Email
 
 class AddTaskForm(Form):
     task_id=IntegerField()
@@ -20,7 +20,7 @@ class AddTaskForm(Form):
     status=IntegerField('Status')
     
 class RegisterForm(Form):
-    name=StringField('Username', validators=[DataRequired(), Length(min=6, max=25)])
+    name=StringField('Username', validators=[DataRequired(),Email(), Length(min=6, max=25)])
     email=StringField('Email', validators=[DataRequired(), Length(min=6, max=40)])
     password=PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)])
     confirm=PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])

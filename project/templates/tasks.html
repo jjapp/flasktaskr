@@ -2,10 +2,12 @@
 {% block content %}
 
 <h1>Welcome to FlaskTaskr</h1>
+<br>
+<br>
 <a href="/logout">Logout</a>
 <div class="add-task">
 	<h3>Add a new task:</h3>
-	<form action="{{ url_for('new_task') }}" method="post">
+	<form action="{{ url_for('tasks.new_task') }}" method="post">
 		{{ form.csrf_token }}
 		<p>
 		{{ form.name(placeholder="name") }}
@@ -20,7 +22,7 @@
 		<p>
 		{{ form.due_date(placeholder="due date") }}
 		<span class="error">
-			{% if form.due_date.erros %}
+			{% if form.due_date.errors %}
 				{% for error in form.due_date.errors %}
 					{{error}}
 				{% endfor %}
@@ -59,14 +61,18 @@
 			</thead>
 			{% for task in open_tasks %}
 				<tr>
-					<td width="200px">{{ task.name }}</td>
-					<td width="75px">{{ task.due_date }}</td>
-					<td width="100px">{{ task.posted_date }}</td>
-					<td width="50px">{{  task.priority  }}</td>
-					<td width="90px">{{ task.poster.name }}</td>
+					<td>{{ task.name }}</td>
+					<td>{{ task.due_date }}</td>
+					<td>{{ task.posted_date }}</td>
+					<td>{{  task.priority  }}</td>
+					<td>{{ task.poster.name }}</td>
 					<td>
-						<a href="{{ url_for('delete_entry', task_id=task.task_id)}}">Delete</a>
-						<a href="{{ url_for('complete', task_id=task.task_id)}}">Mark as Complete</a>
+						{% if task.poster.name==session.name or session.role=="admin" %}
+							<a href ="{{ url_for('tasks.delete_entry', task_id=task.task_id) }}">Delete</a>
+							<a href="{{ url_for('tasks.complete', task_id=task.task_id) }}">Mark as Complete</a>
+						{% else %}
+							<span>N/A</span>
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor%}
@@ -91,13 +97,17 @@
 			</thead>
 			{% for task in closed_tasks %}
 				<tr>
-					<td width="200px">{{ task.name }}</td>
-					<th width="75px">{{ task.due_date }}</th>
-					<th width="100px">{{ task.posted_date }}</th>
-					<th width="50px">{{ task.priority }}</th>
-					<th width="75px">{{ task.poster.name }}</th>
+					<td>{{ task.name }}</td>
+					<th>{{ task.due_date }}</th>
+					<th>{{ task.posted_date }}</th>
+					<th>{{ task.priority }}</th>
+					<th>{{ task.poster.name }}</th>
 					<td>
-						<a href="{{ url_for('delete_entry', task_id = task.task_id) }}">Delete</a>
+						{% if task.poster.name==session.name or session.role=="admin" %}
+							<a href="{{ url_for('tasks.delete_entry', task_id = task.task_id) }}">Delete</a>
+						{% else %}
+							<span>N/A</span>
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor %}

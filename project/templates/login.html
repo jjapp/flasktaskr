@@ -1,8 +1,11 @@
 {% extends "_base.html" %}
+
 {% block content %}
 
 <h1> Welcome to FlaskTaskr. </h1>
+<br>
 <div class="lead">Please sign in to access your task list.</div>
+
 <form class="form-signin" role="form" method="post" action="/">
 	{{ form.csrf_token }}
 		<p>

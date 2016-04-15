@@ -11,7 +11,7 @@ Created on Tue Apr 12 14:54:28 2016
 import os
 import unittest
 
-from views import app, db
+from project.views import app, db
 from _config import basedir
 from models import Task, User
 
@@ -103,9 +103,9 @@ class TasksTests(unittest.TestCase):
     ###################
 
     def test_task_template_displays_logged_in_user_name(self):
-        self.register()
+        self.register('Fletcher', 'fletcher@realpython.com', 'python101','python101')
         self.login('Fletcher', 'python101')
-        response = self.app.get('tasks/tasks/', follow_redirects=True)
+        response = self.app.get('tasks/', follow_redirects=True)
         self.assertIn('Fletcher', response.data)
 
     ###############

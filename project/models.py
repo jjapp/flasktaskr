@@ -7,7 +7,7 @@ Created on Thu Apr 07 15:35:21 2016
 
 #project/models.py
 
-from views import db
+from project import db
 import datetime
 
 class Task(db.Model):
